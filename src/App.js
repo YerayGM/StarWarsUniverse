@@ -92,13 +92,13 @@ const App = () => {
           <h3 className="text-lg font-bold">{item.name || item.title}</h3>
           <button
             onClick={() => speakText(itemDetails)}
-            className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            className="mt-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
           >
             Leer contenido
           </button>
           <button
             onClick={() => handleCardClick(item)}
-            className="mt-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+            className="mt-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
           >
             Ver detalles
           </button>
@@ -176,6 +176,13 @@ const App = () => {
     return details;
   };
 
+  const videoIds = {
+    characters: '_V97ESHV2RA',
+    planets: 'ko7u2NOiD5Y',
+    vehicles: '4hUoANO1Fuc',
+    films: 'U1MnMA0TzGI',
+  };
+
   return (
     <div className="bg-gray-900 text-white min-h-screen">
       <nav className="w-full bg-gray-800 shadow-lg p-3 flex justify-between items-center">
@@ -220,6 +227,17 @@ const App = () => {
         </p>
       </header>
 
+      <div className="flex justify-center mb-10">
+        <iframe
+          width="560"
+          height="315"
+          src={`https://www.youtube.com/embed/${videoIds[section]}`}
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-6 max-w-6xl mx-auto">
         {section === "characters" && renderCards(characters)}
         {section === "planets" && renderCards(planets)}
@@ -255,11 +273,22 @@ const App = () => {
         </div>
       )}
 
-      <footer className="w-full bg-gray-800 p-3 mt-6 text-center text-gray-300">
-        <p>
-          Hecho con la API <span className="text-red-500">SWAPI</span> por un
-          fan de Star Wars.
+      <footer className="w-full bg-gray-800 p-3 mt-6 text-center text-gray-300 flex flex-col items-center">
+        <p className="mb-2">
+          <a property="dct:title" rel="cc:attributionURL" href="https://github.com/YerayGM/StarWarsUniverse">
+            StarWarsUniverse
+          </a> by <span property="cc:attributionName">Yeray y Pablo</span> is licensed under 
+          <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style={{ display: "inline-block" }}>
+            CC BY-NC-ND 4.0
+            <span style={{ display: "inline-flex", alignItems: "center" }}>
+              <img style={{ height: "22px", marginLeft: "3px", verticalAlign: "text-bottom" }} src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt="cc" />
+              <img style={{ height: "22px", marginLeft: "3px", verticalAlign: "text-bottom" }} src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt="by" />
+              <img style={{ height: "22px", marginLeft: "3px", verticalAlign: "text-bottom" }} src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt="nc" />
+              <img style={{ height: "22px", marginLeft: "3px", verticalAlign: "text-bottom" }} src="https://mirrors.creativecommons.org/presskit/icons/nd.svg?ref=chooser-v1" alt="nd" />
+            </span>
+          </a>
         </p>
+        <img src="https://www.w3.org/WAI/wcag2AA-blue.png" alt="WCAG 2.0 AA" style={{ height: "50px", marginTop: "10px" }} />
       </footer>
     </div>
   );
