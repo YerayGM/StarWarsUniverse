@@ -52,14 +52,31 @@ const App = () => {
     setSelectedItem(item);
   };
 
+  const speakText = (text) => {
+    if ("speechSynthesis" in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert("Lo siento, tu navegador no soporta la síntesis de voz.");
+    }
+  };
+
   const renderCards = (items) => {
     return items.map((item, index) => {
       const itemId = item.url.match(/\/([0-9]*)\/$/)[1];
+      const itemDetails =
+        section === "characters"
+          ? `Nombre: ${item.name}, Altura: ${item.height} cm, Peso: ${item.mass} kg, Género: ${item.gender}, Año de nacimiento: ${item.birth_year}`
+          : section === "planets"
+          ? `Nombre: ${item.name}, Clima: ${item.climate}, Población: ${item.population}`
+          : section === "vehicles"
+          ? `Modelo: ${item.model}, Fabricante: ${item.manufacturer}, Coste en créditos: ${item.cost_in_credits}`
+          : `Título: ${item.title}, Director: ${item.director}, Fecha de lanzamiento: ${item.release_date}`;
+
       return (
         <div
           key={index}
           className="bg-gray-800 rounded-lg shadow-md p-4 text-center hover:bg-gray-700 cursor-pointer"
-          onClick={() => handleCardClick(item)}
         >
           <img
             src={`https://starwars-visualguide.com/assets/img/${
@@ -73,6 +90,18 @@ const App = () => {
             className="rounded-lg mb-4 w-full h-48 object-cover"
           />
           <h3 className="text-lg font-bold">{item.name || item.title}</h3>
+          <button
+            onClick={() => speakText(itemDetails)}
+            className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+          >
+            Leer contenido
+          </button>
+          <button
+            onClick={() => handleCardClick(item)}
+            className="mt-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+          >
+            Ver detalles
+          </button>
         </div>
       );
     });
@@ -86,34 +115,60 @@ const App = () => {
     if (section === "characters") {
       details = (
         <div>
-          <p><strong>Height:</strong> {selectedItem.height} cm</p>
-          <p><strong>Mass:</strong> {selectedItem.mass} kg</p>
-          <p><strong>Gender:</strong> {selectedItem.gender}</p>
-          <p><strong>Birth Year:</strong> {selectedItem.birth_year}</p>
+          <p>
+            <strong>Altura:</strong> {selectedItem.height} cm
+          </p>
+          <p>
+            <strong>Peso:</strong> {selectedItem.mass} kg
+          </p>
+          <p>
+            <strong>Género:</strong> {selectedItem.gender}
+          </p>
+          <p>
+            <strong>Año de nacimiento:</strong> {selectedItem.birth_year}
+          </p>
         </div>
       );
     } else if (section === "planets") {
       details = (
         <div>
-          <p><strong>Name:</strong> {selectedItem.name}</p>
-          <p><strong>Climate:</strong> {selectedItem.climate}</p>
-          <p><strong>Population:</strong> {selectedItem.population}</p>
+          <p>
+            <strong>Nombre:</strong> {selectedItem.name}
+          </p>
+          <p>
+            <strong>Clima:</strong> {selectedItem.climate}
+          </p>
+          <p>
+            <strong>Población:</strong> {selectedItem.population}
+          </p>
         </div>
       );
     } else if (section === "vehicles") {
       details = (
         <div>
-          <p><strong>Model:</strong> {selectedItem.model}</p>
-          <p><strong>Manufacturer:</strong> {selectedItem.manufacturer}</p>
-          <p><strong>Cost in Credits:</strong> {selectedItem.cost_in_credits}</p>
+          <p>
+            <strong>Modelo:</strong> {selectedItem.model}
+          </p>
+          <p>
+            <strong>Fabricante:</strong> {selectedItem.manufacturer}
+          </p>
+          <p>
+            <strong>Coste en créditos:</strong> {selectedItem.cost_in_credits}
+          </p>
         </div>
       );
     } else if (section === "films") {
       details = (
         <div>
-          <p><strong>Title:</strong> {selectedItem.title}</p>
-          <p><strong>Director:</strong> {selectedItem.director}</p>
-          <p><strong>Release Date:</strong> {selectedItem.release_date}</p>
+          <p>
+            <strong>Título:</strong> {selectedItem.title}
+          </p>
+          <p>
+            <strong>Director:</strong> {selectedItem.director}
+          </p>
+          <p>
+            <strong>Fecha de lanzamiento:</strong> {selectedItem.release_date}
+          </p>
         </div>
       );
     }
@@ -160,7 +215,8 @@ const App = () => {
           Explora el Universo Star Wars
         </h1>
         <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-          Descubre personajes, planetas, vehículos y películas icónicos de Star Wars.
+          Descubre personajes, planetas, vehículos y películas icónicos de Star
+          Wars.
         </p>
       </header>
 
@@ -201,8 +257,8 @@ const App = () => {
 
       <footer className="w-full bg-gray-800 p-3 mt-6 text-center text-gray-300">
         <p>
-          Hecho con la API{" "}
-          <span className="text-red-500">SWAPI</span> por un fan de Star Wars.
+          Hecho con la API <span className="text-red-500">SWAPI</span> por un
+          fan de Star Wars.
         </p>
       </footer>
     </div>
